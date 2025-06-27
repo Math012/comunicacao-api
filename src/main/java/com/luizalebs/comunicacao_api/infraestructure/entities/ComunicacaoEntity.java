@@ -37,6 +37,9 @@ public class ComunicacaoEntity implements Serializable {
     @Column(name = "MENSAGEM", nullable = false)
     private String mensagem;
 
+    @Column(name = "NOME_REMETENTE")
+    private String nomeRemetente;
+
     @Column(name = "MODO_ENVIO")
     @Enumerated(EnumType.STRING)
     private ModoEnvioEnum modoDeEnvio;
