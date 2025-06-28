@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-
+@Deprecated
 @AllArgsConstructor
 @Component
 public class ComunicacaoConverter {
