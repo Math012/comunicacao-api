@@ -8,6 +8,8 @@ import com.luizalebs.comunicacao_api.infraestructure.enums.StatusEnvioEnum;
 import com.luizalebs.comunicacao_api.infraestructure.repositories.ComunicacaoRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -50,4 +52,16 @@ public class ComunicacaoService {
         return (converter.paraDTO(entity));
     }
 
+    public List<ComunicacaoOutDTO> buscarMensagemPorPeriado(LocalDateTime horaInicial, LocalDateTime horaFutura){
+        return converter.paraListaDTO(repository.findByDataHoraEnvioBetweenAndStatusEnvio(horaInicial, horaFutura, StatusEnvioEnum.PENDENTE));
+    }
+
+    public ComunicacaoOutDTO updateComunicado(ComunicacaoOutDTO comunicacaoOutDTO){
+        ComunicacaoEntity entity = repository.findByEmailDestinatario(comunicacaoOutDTO.getEmailDestinatario());
+        if (Objects.isNull(entity)){
+            throw new RuntimeException("email não encontrado");
+        }
+        ComunicacaoEntity comunicadoAtualizado = converter.updateComunicado(comunicacaoOutDTO,entity);
+        return converter.paraDTO(repository.save(comunicadoAtualizado));
+    }
 }
