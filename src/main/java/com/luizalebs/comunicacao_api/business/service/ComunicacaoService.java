@@ -2,7 +2,8 @@ package com.luizalebs.comunicacao_api.business.service;
 
 import com.luizalebs.comunicacao_api.api.dto.ComunicacaoInDTO;
 import com.luizalebs.comunicacao_api.api.dto.ComunicacaoOutDTO;
-import com.luizalebs.comunicacao_api.business.converter.ComunicacaoConverter;
+import com.luizalebs.comunicacao_api.business.converter.ComunicadoMapper;
+import com.luizalebs.comunicacao_api.business.converter.UpdateComunicadoMapper;
 import com.luizalebs.comunicacao_api.infraestructure.entities.ComunicacaoEntity;
 import com.luizalebs.comunicacao_api.infraestructure.enums.StatusEnvioEnum;
 import com.luizalebs.comunicacao_api.infraestructure.repositories.ComunicacaoRepository;
@@ -16,11 +17,13 @@ import java.util.Objects;
 public class ComunicacaoService {
 
     private final ComunicacaoRepository repository;
-    private final ComunicacaoConverter converter;
+    private final ComunicadoMapper comunicadoMapper;
+    private final UpdateComunicadoMapper updateComunicadoMapper;
 
-    public ComunicacaoService(ComunicacaoRepository repository, ComunicacaoConverter converter) {
+    public ComunicacaoService(ComunicacaoRepository repository, ComunicadoMapper comunicadoMapper, UpdateComunicadoMapper updateComunicadoMapper) {
         this.repository = repository;
-        this.converter = converter;
+        this.comunicadoMapper = comunicadoMapper;
+        this.updateComunicadoMapper = updateComunicadoMapper;
     }
 
     public ComunicacaoOutDTO agendarComunicacao(ComunicacaoInDTO dto) {
@@ -28,10 +31,10 @@ public class ComunicacaoService {
             throw new RuntimeException();
         }
         dto.setStatusEnvio(StatusEnvioEnum.PENDENTE);
-        ComunicacaoEntity entity = converter.paraEntity(dto);
+
+        ComunicacaoEntity entity = comunicadoMapper.paraComunicadoEntity(dto);
         repository.save(entity);
-        ComunicacaoOutDTO outDTO = converter.paraDTO(entity);
-        return outDTO;
+        return comunicadoMapper.paraComunicadoOutDTO(entity);
     }
 
     public ComunicacaoOutDTO buscarStatusComunicacao(String emailDestinatario) {
@@ -39,7 +42,7 @@ public class ComunicacaoService {
         if (Objects.isNull(entity)) {
             throw new RuntimeException();
         }
-        return converter.paraDTO(entity);
+        return comunicadoMapper.paraComunicadoOutDTO(entity);
     }
 
     public ComunicacaoOutDTO alterarStatusComunicacao(String emailDestinatario) {
@@ -49,11 +52,11 @@ public class ComunicacaoService {
         }
         entity.setStatusEnvio(StatusEnvioEnum.CANCELADO);
         repository.save(entity);
-        return (converter.paraDTO(entity));
+        return (comunicadoMapper.paraComunicadoOutDTO(entity));
     }
 
     public List<ComunicacaoOutDTO> buscarMensagemPorPeriado(LocalDateTime horaInicial, LocalDateTime horaFutura){
-        return converter.paraListaDTO(repository.findByDataHoraEnvioBetweenAndStatusEnvio(horaInicial, horaFutura, StatusEnvioEnum.PENDENTE));
+        return comunicadoMapper.paraListaComunicadoOutDTO(repository.findByDataHoraEnvioBetweenAndStatusEnvio(horaInicial, horaFutura, StatusEnvioEnum.PENDENTE));
     }
 
     public ComunicacaoOutDTO updateComunicado(ComunicacaoOutDTO comunicacaoOutDTO){
@@ -61,7 +64,7 @@ public class ComunicacaoService {
         if (Objects.isNull(entity)){
             throw new RuntimeException("email não encontrado");
         }
-        ComunicacaoEntity comunicadoAtualizado = converter.updateComunicado(comunicacaoOutDTO,entity);
-        return converter.paraDTO(repository.save(comunicadoAtualizado));
+        updateComunicadoMapper.updateComunicado(comunicacaoOutDTO,entity);
+        return comunicadoMapper.paraComunicadoOutDTO(repository.save(entity));
     }
 }

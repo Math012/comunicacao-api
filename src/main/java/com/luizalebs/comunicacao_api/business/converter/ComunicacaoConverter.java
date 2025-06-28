@@ -16,7 +16,6 @@ import java.util.List;
 @AllArgsConstructor
 @Component
 public class ComunicacaoConverter {
-
     public ComunicacaoEntity paraEntity(ComunicacaoInDTO dto) {
         return ComunicacaoEntity.builder()
                 .dataHoraEnvio(dto.getDataHoraEnvio())
