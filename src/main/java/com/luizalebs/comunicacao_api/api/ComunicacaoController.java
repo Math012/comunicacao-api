@@ -6,12 +6,11 @@ import com.luizalebs.comunicacao_api.business.service.ComunicacaoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.util.List;
+import javax.validation.Valid;
+
 
 @RestController
 @RequestMapping("/comunicacao")
@@ -28,7 +27,7 @@ public class ComunicacaoController {
     @Operation(summary = "Agendamento de mensagem", description = "Realiza o agendamento de uma mensagem")
     @ApiResponse(responseCode = "200", description = "Mensagem agendada com sucesso")
     @ApiResponse(responseCode = "500", description = "Erro no servidor")
-    public ResponseEntity<ComunicacaoOutDTO> agendar(@RequestBody ComunicacaoInDTO dto)  {
+    public ResponseEntity<ComunicacaoOutDTO> agendar(@RequestBody @Valid ComunicacaoInDTO dto)  {
         return ResponseEntity.ok(service.agendarComunicacao(dto));
     }
 

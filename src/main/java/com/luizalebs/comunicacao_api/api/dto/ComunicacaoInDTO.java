@@ -6,6 +6,7 @@ import com.luizalebs.comunicacao_api.infraestructure.enums.ModoEnvioEnum;
 import com.luizalebs.comunicacao_api.infraestructure.enums.StatusEnvioEnum;
 import lombok.*;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -26,6 +27,7 @@ public class ComunicacaoInDTO implements Serializable {
     private String telefoneDestinatario;
     private String mensagem;
     private String nomeRemetente;
+    @NotBlank(message = "Modo de envio não pode ser nulo")
     private ModoEnvioEnum modoDeEnvio;
     @JsonIgnore
     private StatusEnvioEnum statusEnvio;
