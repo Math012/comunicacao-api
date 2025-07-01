@@ -9,5 +9,5 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface UpdateComunicadoMapper {
     // Update
-    void updateComunicado(ComunicacaoOutDTO comunicacaoOutDTO, @MappingTarget ComunicacaoEntity comunicacaoEntity);
+    ComunicacaoEntity updateComunicado(ComunicacaoOutDTO comunicacaoOutDTO, @MappingTarget ComunicacaoEntity comunicacaoEntity);
 }

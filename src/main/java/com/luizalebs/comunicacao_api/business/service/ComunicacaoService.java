@@ -72,8 +72,8 @@ public class ComunicacaoService {
         if (Objects.isNull(entity)){
             throw new ResourceNotFound("Erro ao buscar comunicado: e-mail não encontrado!");
         }
-        updateComunicadoMapper.updateComunicado(comunicacaoOutDTO,entity);
-        return comunicadoMapper.paraComunicadoOutDTO(repository.save(entity));
+        ComunicacaoEntity comunicacaoEntity = updateComunicadoMapper.updateComunicado(comunicacaoOutDTO,entity);
+        return comunicadoMapper.paraComunicadoOutDTO(repository.save(comunicacaoEntity));
     }
 
     public boolean verifyFields(ComunicacaoInDTO dto){
