@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -15,6 +16,7 @@ import java.util.Date;
 @NoArgsConstructor
 @ToString
 @Builder
+@EqualsAndHashCode
 @Entity
 @Table(name = "COMUNICACAO")
 public class ComunicacaoEntity implements Serializable {
