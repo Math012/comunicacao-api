@@ -1,6 +1,5 @@
 package com.luizalebs.comunicacao_api.business.service;
 
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.luizalebs.comunicacao_api.api.dto.ComunicacaoInDTO;
 import com.luizalebs.comunicacao_api.api.dto.ComunicacaoOutDTO;
 import com.luizalebs.comunicacao_api.business.converter.ComunicadoMapper;
@@ -8,11 +7,9 @@ import com.luizalebs.comunicacao_api.business.converter.UpdateComunicadoMapper;
 import com.luizalebs.comunicacao_api.infraestructure.entities.ComunicacaoEntity;
 import com.luizalebs.comunicacao_api.infraestructure.enums.StatusEnvioEnum;
 import com.luizalebs.comunicacao_api.infraestructure.exception.DateInvalid;
-import com.luizalebs.comunicacao_api.infraestructure.exception.EnumValueInvalidExeception;
 import com.luizalebs.comunicacao_api.infraestructure.exception.InvalidFieldsException;
 import com.luizalebs.comunicacao_api.infraestructure.exception.ResourceNotFound;
 import com.luizalebs.comunicacao_api.infraestructure.repositories.ComunicacaoRepository;
-import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;

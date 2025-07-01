@@ -27,12 +27,6 @@ public class CustomHandlerException extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(exception, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(EnumValueInvalidExeception.class)
-    public ResponseEntity<StructException> handlerEnumValueInvalidExeception(Exception e, WebRequest request){
-        StructException exception = new StructException(new Date(),e.getMessage(),request.getDescription(false));
-        return new ResponseEntity<>(exception, HttpStatus.BAD_REQUEST);
-    }
-
     @ExceptionHandler(InvalidFieldsException.class)
     public ResponseEntity<StructException> handlerInvalidFieldsException(Exception e, WebRequest request){
         StructException exception = new StructException(new Date(),e.getMessage(),request.getDescription(false));
