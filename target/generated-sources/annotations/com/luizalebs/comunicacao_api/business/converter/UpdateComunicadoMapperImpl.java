@@ -7,16 +7,16 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-06-27T22:43:41-0300",
+    date = "2025-07-01T16:23:48-0300",
     comments = "version: 1.5.4.Final, compiler: javac, environment: Java 17.0.12 (Oracle Corporation)"
 )
 @Component
 public class UpdateComunicadoMapperImpl implements UpdateComunicadoMapper {
 
     @Override
-    public void updateComunicado(ComunicacaoOutDTO comunicacaoOutDTO, ComunicacaoEntity comunicacaoEntity) {
+    public ComunicacaoEntity updateComunicado(ComunicacaoOutDTO comunicacaoOutDTO, ComunicacaoEntity comunicacaoEntity) {
         if ( comunicacaoOutDTO == null ) {
-            return;
+            return comunicacaoEntity;
         }
 
         if ( comunicacaoOutDTO.getId() != null ) {
@@ -46,5 +46,7 @@ public class UpdateComunicadoMapperImpl implements UpdateComunicadoMapper {
         if ( comunicacaoOutDTO.getStatusEnvio() != null ) {
             comunicacaoEntity.setStatusEnvio( comunicacaoOutDTO.getStatusEnvio() );
         }
+
+        return comunicacaoEntity;
     }
 }
