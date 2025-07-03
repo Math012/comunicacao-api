@@ -68,6 +68,9 @@ public class ComunicacaoService {
     }
 
     public ComunicacaoOutDTO updateComunicado(ComunicacaoOutDTO comunicacaoOutDTO){
+        if (comunicacaoOutDTO == null){
+            throw new ResourceNotFound("Erro ao buscar comunicado: e-mail não encontrado!");
+        }
         ComunicacaoEntity entity = repository.findByEmailDestinatario(comunicacaoOutDTO.getEmailDestinatario());
         if (Objects.isNull(entity)){
             throw new ResourceNotFound("Erro ao buscar comunicado: e-mail não encontrado!");
@@ -77,6 +80,9 @@ public class ComunicacaoService {
     }
 
     public boolean verifyFields(ComunicacaoInDTO dto){
+        if (dto == null){
+            return false;
+        }
         if (dto.getDataHoraEnvio() == null
                 || dto.getNomeDestinatario() == null
                 || dto.getNomeDestinatario().isBlank()
