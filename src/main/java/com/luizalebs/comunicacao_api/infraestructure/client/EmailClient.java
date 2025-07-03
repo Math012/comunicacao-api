@@ -1,9 +1,7 @@
 package com.luizalebs.comunicacao_api.infraestructure.client;
 
-import com.luizalebs.comunicacao_api.api.dto.ComunicacaoInDTO;
 import com.luizalebs.comunicacao_api.api.dto.ComunicacaoOutDTO;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -11,5 +9,5 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface EmailClient {
 
     @PostMapping("/mensagem")
-    public ResponseEntity<Void> enviarMensagem(@RequestBody ComunicacaoOutDTO comunicacaoOutDTO);
+    void enviarMensagem(@RequestBody ComunicacaoOutDTO comunicacaoOutDTO);
 }
