@@ -63,7 +63,6 @@ public class ComunicadoMapperTest {
                 "teste teste",
                 modoEnvioEnum.EMAIL);
 
-
         comunicacaoOutDTO = ComunicacaoOutDTOFixture.build(
                 null,
                 dataHora,

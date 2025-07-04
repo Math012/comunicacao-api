@@ -1,6 +1,5 @@
 package com.luizalebs.comunicacao_api.business.response;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.luizalebs.comunicacao_api.api.dto.ComunicacaoOutDTO;
 import com.luizalebs.comunicacao_api.infraestructure.enums.ModoEnvioEnum;
 import com.luizalebs.comunicacao_api.infraestructure.enums.StatusEnvioEnum;
@@ -18,6 +17,5 @@ public class ComunicacaoOutDTOFixture {
     ModoEnvioEnum modoDeEnvio,
     StatusEnvioEnum statusEnvio){
         return new ComunicacaoOutDTO(id,dataHoraEnvio,nomeDestinatario,emailDestinatario,telefoneDestinatario,mensagem,nomeRemetente,modoDeEnvio,statusEnvio);
-
     }
 }
