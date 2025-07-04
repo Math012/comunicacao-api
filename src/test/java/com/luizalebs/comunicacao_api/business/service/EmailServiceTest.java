@@ -24,7 +24,6 @@ public class EmailServiceTest {
 
     @Mock
     EmailClient emailClient;
-
     ComunicacaoOutDTO comunicacaoOutDTO;
     LocalDateTime dataHora;
     ModoEnvioEnum modoEnvioEnum;
