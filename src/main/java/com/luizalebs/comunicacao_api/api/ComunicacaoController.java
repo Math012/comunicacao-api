@@ -27,7 +27,7 @@ public class ComunicacaoController {
     @Operation(summary = "Agendamento de mensagem", description = "Realiza o agendamento de uma mensagem")
     @ApiResponse(responseCode = "200", description = "Mensagem agendada com sucesso")
     @ApiResponse(responseCode = "500", description = "Erro no servidor")
-    public ResponseEntity<ComunicacaoOutDTO> agendar(@RequestBody @Valid ComunicacaoInDTO dto)  {
+    public ResponseEntity<ComunicacaoOutDTO> agendar(@RequestBody ComunicacaoInDTO dto)  {
         return ResponseEntity.ok(service.agendarComunicacao(dto));
     }
 
