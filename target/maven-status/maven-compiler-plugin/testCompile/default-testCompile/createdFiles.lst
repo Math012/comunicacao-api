@@ -1,0 +1,9 @@
+com\luizalebs\comunicacao_api\business\converter\ComunicadoMapperTest.class
+com\luizalebs\comunicacao_api\business\converter\UpdateComunicadoMapperTest.class
+com\luizalebs\comunicacao_api\business\requests\ComunicacaoInDTOFixture.class
+com\luizalebs\comunicacao_api\ComunicacaoApiApplicationTests.class
+com\luizalebs\comunicacao_api\api\ComunicacaoControllerTest.class
+com\luizalebs\comunicacao_api\business\response\ComunicacaoOutDTOFixture.class
+com\luizalebs\comunicacao_api\business\service\EmailServiceTest.class
+com\luizalebs\comunicacao_api\business\service\ComunicadoServiceTest.class
+com\luizalebs\comunicacao_api\business\service\cron\CronServiceTest.class
