@@ -25,8 +25,7 @@ import java.util.Date;
 public class ComunicacaoInDTO implements Serializable {
 
 
-    @JsonDeserialize(using = LocalDateDeserializer.class)
-    @JsonSerialize(using = LocalDateSerializer.class)
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime dataHoraEnvio;
     private String nomeDestinatario;
