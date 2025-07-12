@@ -41,13 +41,19 @@ public class ComunicadoServiceTest {
 
     ComunicacaoInDTO comunicacaoInDTO;
 
+    ComunicacaoInDTO comunicacaoInDTOUpdate;
+
     ComunicacaoOutDTO comunicacaoOutDTO;
+
+    ComunicacaoOutDTO comunicacaoOutDTOUpdate;
 
     ComunicacaoOutDTO comunicacaoOutDTOCancelado;
 
     ComunicacaoOutDTO comunicacaoOutDTOEmailInvalido;
 
     ComunicacaoEntity comunicacaoEntity;
+
+    ComunicacaoEntity comunicacaoEntityUpdate;
 
     ComunicacaoEntity comunicacaoEntityCancelado;
 
@@ -79,6 +85,40 @@ public class ComunicadoServiceTest {
                 .modoDeEnvio(modoEnvioEnum.EMAIL)
                 .statusEnvio(statusEnvioEnum.PENDENTE)
                 .build();
+
+        comunicacaoEntityUpdate= ComunicacaoEntity.builder()
+                .id(null)
+                .dataHoraEnvio(dataHora)
+                .nomeDestinatario("teste")
+                .emailDestinatario("teste@teste.com")
+                .telefoneDestinatario("111111111")
+                .mensagem("update mensagem")
+                .nomeRemetente("teste teste")
+                .modoDeEnvio(modoEnvioEnum.EMAIL)
+                .statusEnvio(statusEnvioEnum.PENDENTE)
+                .build();
+
+        comunicacaoInDTOUpdate = ComunicacaoInDTOFixture.build(
+                null,
+                null,
+                null,
+                null,
+                "update mensagem",
+                null,
+                null);
+
+        comunicacaoOutDTOUpdate = ComunicacaoOutDTOFixture.build(
+                null,
+                null,
+                null,
+                null,
+                null,
+                "update mensagem",
+                null,
+                null,
+                statusEnvioEnum.PENDENTE);
+
+
         comunicacaoEntityCancelado = ComunicacaoEntity.builder()
                 .id(null)
                 .dataHoraEnvio(dataHora)
@@ -266,19 +306,19 @@ public class ComunicadoServiceTest {
 
     @Test
     void deveRealizarUpdateComunicadoComSucesso(){
-        when(comunicacaoRepository.findByEmailDestinatario(email)).thenReturn(comunicacaoEntity);
-        when(updateComunicadoMapper.updateComunicado(comunicacaoOutDTO,comunicacaoEntity)).thenReturn(comunicacaoEntity);
-        when(comunicacaoRepository.save(comunicacaoEntity)).thenReturn(comunicacaoEntity);
-        when(comunicadoMapper.paraComunicadoOutDTO(comunicacaoEntity)).thenReturn(comunicacaoOutDTO);
-        ComunicacaoOutDTO response = comunicacaoService.updateComunicado(comunicacaoOutDTO);
-        assertEquals(response, comunicacaoOutDTO);
-        verifyNoMoreInteractions(comunicacaoRepository,comunicadoMapper,updateComunicadoMapper);
+        when(comunicacaoRepository.findByEmailDestinatario(email)).thenReturn(comunicacaoEntityUpdate);
+        when(comunicadoMapper.paraComunicadoOutDTOFromComunicacaoInDTO(comunicacaoInDTOUpdate)).thenReturn(comunicacaoOutDTOUpdate);
+        when(updateComunicadoMapper.updateComunicado(comunicacaoOutDTOUpdate,comunicacaoEntityUpdate)).thenReturn(comunicacaoEntityUpdate);
+        when(comunicacaoRepository.save(comunicacaoEntityUpdate)).thenReturn(comunicacaoEntityUpdate);
+        when(comunicadoMapper.paraComunicadoOutDTO(comunicacaoEntityUpdate)).thenReturn(comunicacaoOutDTOUpdate);
+        ComunicacaoOutDTO response = comunicacaoService.updateComunicado(email,comunicacaoInDTOUpdate);
+        assertEquals(response, comunicacaoOutDTOUpdate);
     }
 
     @Test
     void deveFalharAoFazerUpdateComunicadoComComunicadoDTONulo(){
         ResourceNotFound resourceNotFound = assertThrows(ResourceNotFound.class,()->{
-            comunicacaoService.updateComunicado(null);
+            comunicacaoService.updateComunicado(null,comunicacaoInDTO);
         });
         assertEquals("Erro ao buscar comunicado: e-mail não encontrado!",resourceNotFound.getMessage());
     }
@@ -288,7 +328,7 @@ public class ComunicadoServiceTest {
         String emailNaoRegistrado = "email@naoregistrado.com";
         when(comunicacaoRepository.findByEmailDestinatario(emailNaoRegistrado)).thenReturn(null);
         ResourceNotFound resourceNotFound = assertThrows(ResourceNotFound.class,()->{
-            comunicacaoService.updateComunicado(comunicacaoOutDTOEmailInvalido);
+            comunicacaoService.updateComunicado(emailNaoRegistrado,comunicacaoInDTO);
         });
         assertEquals("Erro ao buscar comunicado: e-mail não encontrado!",resourceNotFound.getMessage());
     }
