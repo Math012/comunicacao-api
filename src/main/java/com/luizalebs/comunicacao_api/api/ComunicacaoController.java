@@ -49,4 +49,23 @@ public class ComunicacaoController {
     public ResponseEntity<ComunicacaoOutDTO> cancelarStatus(@RequestParam String emailDestinatario) {
         return ResponseEntity.ok(service.alterarStatusComunicacao(emailDestinatario));
     }
+
+    @PutMapping
+    @Operation(summary = "Atualiza dados do comunicado", description = "Atualiza dados do comunicado através do email do destinatário")
+    @ApiResponse(responseCode = "200", description = "Comunicado atualizado com sucesso")
+    @ApiResponse(responseCode = "400", description = "Email inválido")
+    @ApiResponse(responseCode = "500", description = "Erro no servidor")
+    public ResponseEntity<ComunicacaoOutDTO> atualizarComunicado(@RequestParam String emailDestinatario, @RequestBody ComunicacaoInDTO dto){
+        return ResponseEntity.ok(service.updateComunicado(emailDestinatario, dto));
+    }
+
+    @DeleteMapping
+    @Operation(summary = "Deleta um comunicado", description = "Deleta um comunicado através do email do destinatário")
+    @ApiResponse(responseCode = "200", description = "Comunicado deletado com sucesso")
+    @ApiResponse(responseCode = "400", description = "Email inválido")
+    @ApiResponse(responseCode = "500", description = "Erro no servidor")
+    public ResponseEntity<Void> deletarComunicadoPorEmailDestinatario(@RequestParam String emailDestinatario){
+        service.deletarComunicado(emailDestinatario);
+        return ResponseEntity.ok().build();
+    }
 }
