@@ -132,6 +132,19 @@ public class ComunicadoMapperTest {
     }
 
     @Test
+    void deveConverterParaComunicadoOutDTORecebendoComunicadoInDTO(){
+        ComunicacaoOutDTO response = comunicadoMapper.paraComunicadoOutDTOFromComunicacaoInDTO(comunicacaoInDTO);
+        assertEquals(comunicacaoOutDTO, response);
+    }
+
+    @Test
+    void deveConverterParaComunicadoInDTORecebendoComunicadoOutDTO(){
+        ComunicacaoInDTO response = comunicadoMapper.paraComunicadoInDTOFromComunicacaoOutDTO(comunicacaoOutDTO);
+        assertEquals(comunicacaoInDTO, response);
+    }
+
+
+    @Test
     void deveConverterParaListaComunicadoOutDTOComSucesso(){
         List<ComunicacaoOutDTO> response = comunicadoMapper.paraListaComunicadoOutDTO(listComunicacaoEntity);
         assertEquals(listComunicacaoOutDTO,response);

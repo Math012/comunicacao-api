@@ -14,8 +14,10 @@ public interface ComunicadoMapper {
 
     ComunicacaoEntity paraComunicadoEntity(ComunicacaoInDTO comunicacaoInDTO);
     ComunicacaoOutDTO paraComunicadoOutDTO(ComunicacaoEntity comunicacaoEntity);
+
     ComunicacaoOutDTO paraComunicadoOutDTOFromComunicacaoInDTO(ComunicacaoInDTO comunicacaoInDTO);
     ComunicacaoInDTO paraComunicadoInDTOFromComunicacaoOutDTO(ComunicacaoOutDTO comunicacaoOutDTO);
+
     List<ComunicacaoOutDTO> paraListaComunicadoOutDTO(List<ComunicacaoEntity> comunicacaoEntities);
 
 
