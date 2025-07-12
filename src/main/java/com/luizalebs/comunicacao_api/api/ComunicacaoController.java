@@ -26,6 +26,7 @@ public class ComunicacaoController {
     @PostMapping("/agendar")
     @Operation(summary = "Agendamento de mensagem", description = "Realiza o agendamento de uma mensagem")
     @ApiResponse(responseCode = "200", description = "Mensagem agendada com sucesso")
+    @ApiResponse(responseCode = "400", description = "Requisição inválida")
     @ApiResponse(responseCode = "500", description = "Erro no servidor")
     public ResponseEntity<ComunicacaoOutDTO> agendar(@RequestBody ComunicacaoInDTO dto)  {
         return ResponseEntity.ok(service.agendarComunicacao(dto));
@@ -34,6 +35,7 @@ public class ComunicacaoController {
     @GetMapping()
     @Operation(summary = "Busca o status de uma mensagem", description = "Busca o status de uma mensagem com base no email do usuário")
     @ApiResponse(responseCode = "200", description = "Mensagem encontrada com sucesso")
+    @ApiResponse(responseCode = "400", description = "Email inválido")
     @ApiResponse(responseCode = "500", description = "Erro no servidor")
     public ResponseEntity<ComunicacaoOutDTO> buscarStatus(@RequestParam String emailDestinatario) {
         return ResponseEntity.ok(service.buscarStatusComunicacao(emailDestinatario));
@@ -42,6 +44,7 @@ public class ComunicacaoController {
     @PatchMapping("/cancelar")
     @Operation(summary = "Altera o status da mensagem para cancelado", description = "Altera o status da mensagem para cancelado")
     @ApiResponse(responseCode = "200", description = "Mensagem agendada com sucesso")
+    @ApiResponse(responseCode = "400", description = "Email inválido")
     @ApiResponse(responseCode = "500", description = "Erro no servidor")
     public ResponseEntity<ComunicacaoOutDTO> cancelarStatus(@RequestParam String emailDestinatario) {
         return ResponseEntity.ok(service.alterarStatusComunicacao(emailDestinatario));

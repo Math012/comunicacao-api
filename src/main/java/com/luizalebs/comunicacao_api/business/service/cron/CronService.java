@@ -28,6 +28,7 @@ public class CronService {
         List<ComunicacaoOutDTO> listaMensagens = comunicacaoService.buscarMensagemPorPeriado(horaInicial,horaFinal);
         listaMensagens.forEach(mensagem ->{
             emailService.enviarEmail(mensagem);
+            System.out.println("email enviado: " + mensagem.getEmailDestinatario());
             mensagem.setStatusEnvio(StatusEnvioEnum.ENVIADO);
             comunicacaoService.updateComunicado(mensagem);
         });
