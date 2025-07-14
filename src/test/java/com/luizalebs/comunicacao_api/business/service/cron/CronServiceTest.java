@@ -1,6 +1,9 @@
 package com.luizalebs.comunicacao_api.business.service.cron;
 
+import com.luizalebs.comunicacao_api.api.dto.ComunicacaoInDTO;
 import com.luizalebs.comunicacao_api.api.dto.ComunicacaoOutDTO;
+import com.luizalebs.comunicacao_api.business.converter.ComunicadoMapper;
+import com.luizalebs.comunicacao_api.business.requests.ComunicacaoInDTOFixture;
 import com.luizalebs.comunicacao_api.business.response.ComunicacaoOutDTOFixture;
 import com.luizalebs.comunicacao_api.business.service.ComunicacaoService;
 import com.luizalebs.comunicacao_api.business.service.EmailService;
@@ -33,6 +36,8 @@ public class CronServiceTest {
     @Mock
     EmailService emailService;
 
+    @Mock
+    ComunicadoMapper comunicadoMapper;
 
     @Mock
     Clock clock;
@@ -43,6 +48,9 @@ public class CronServiceTest {
     ModoEnvioEnum modoEnvioEnum;
     StatusEnvioEnum statusEnvioEnum;
     ComunicacaoOutDTO comunicacaoOutDTO;
+    ComunicacaoOutDTO comunicacaoOutDTOEnviado;
+    ComunicacaoInDTO comunicacaoInDTO;
+    String email ;
 
     @BeforeEach
     void setup(){
@@ -57,6 +65,24 @@ public class CronServiceTest {
                 "teste teste",
                 modoEnvioEnum.EMAIL,
                 statusEnvioEnum.PENDENTE);
+        comunicacaoOutDTOEnviado = ComunicacaoOutDTOFixture.build(
+                null,
+                dataHora,
+                "teste",
+                "teste@teste.com",
+                "111111111",
+                "mensagem teste",
+                "teste teste",
+                modoEnvioEnum.EMAIL,
+                statusEnvioEnum.ENVIADO);
+        comunicacaoInDTO = ComunicacaoInDTOFixture.build(
+                dataHora,
+                "teste",
+                "teste@teste.com",
+                "111111111",
+                "mensagem teste",
+                "teste teste",
+                modoEnvioEnum.EMAIL);
         listComunicacaoOutDTO = List.of(ComunicacaoOutDTOFixture.build(
                         null,
                         dataHora,
@@ -66,7 +92,7 @@ public class CronServiceTest {
                         "mensagem teste",
                         "teste teste",
                         modoEnvioEnum.EMAIL,
-                        statusEnvioEnum.PENDENTE ),
+                        statusEnvioEnum.ENVIADO ),
                 ComunicacaoOutDTOFixture.build(
                         null,
                         dataHora,
@@ -76,8 +102,10 @@ public class CronServiceTest {
                         "mensagem teste 2",
                         "teste teste 2",
                         modoEnvioEnum.EMAIL,
-                        statusEnvioEnum.PENDENTE ));
+                        statusEnvioEnum.ENVIADO ));
 
+
+        email = "teste@teste.com";
         dataHora = LocalDateTime.of(2025, 7, 3, 21, 5, 19, 104556200);
         dataHoraFutura = dataHora.plusHours(1);
         Clock fixedClock = Clock.fixed(dataHora.atZone(ZoneId.systemDefault()).toInstant(), ZoneId.systemDefault());
@@ -87,8 +115,11 @@ public class CronServiceTest {
 
     @Test
     void deveEnviarMensagensComSucesso(){
+
         when(comunicacaoService.buscarMensagemPorPeriado(dataHora,dataHoraFutura)).thenReturn(listComunicacaoOutDTO);
-        doNothing().when(emailService).enviarEmail(comunicacaoOutDTO);
+        doNothing().when(emailService).enviarEmail(comunicacaoOutDTOEnviado);
+        when(comunicadoMapper.paraComunicadoInDTOFromComunicacaoOutDTO(comunicacaoOutDTOEnviado)).thenReturn(comunicacaoInDTO);
+        when(comunicacaoService.updateComunicado(email,comunicacaoInDTO)).thenReturn(comunicacaoOutDTOEnviado);
         cronService.enviarMensagem();
     }
 }

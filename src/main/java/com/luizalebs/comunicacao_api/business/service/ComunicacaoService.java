@@ -67,16 +67,22 @@ public class ComunicacaoService {
         }
     }
 
-    public ComunicacaoOutDTO updateComunicado(ComunicacaoOutDTO comunicacaoOutDTO){
-        if (comunicacaoOutDTO == null){
+    public ComunicacaoOutDTO updateComunicado(String emailDestinatario, ComunicacaoInDTO comunicacaoInDTO){
+        ComunicacaoEntity entity = repository.findByEmailDestinatario(emailDestinatario);
+        if (Objects.isNull(entity)) {
             throw new ResourceNotFound("Erro ao buscar comunicado: e-mail não encontrado!");
         }
-        ComunicacaoEntity entity = repository.findByEmailDestinatario(comunicacaoOutDTO.getEmailDestinatario());
-        if (Objects.isNull(entity)){
-            throw new ResourceNotFound("Erro ao buscar comunicado: e-mail não encontrado!");
-        }
+        ComunicacaoOutDTO comunicacaoOutDTO = comunicadoMapper.paraComunicadoOutDTOFromComunicacaoInDTO(comunicacaoInDTO);
         ComunicacaoEntity comunicacaoEntity = updateComunicadoMapper.updateComunicado(comunicacaoOutDTO,entity);
         return comunicadoMapper.paraComunicadoOutDTO(repository.save(comunicacaoEntity));
+    }
+
+    public void deletarComunicado(String emailDestinatario){
+        ComunicacaoEntity entity = repository.findByEmailDestinatario(emailDestinatario);
+        if (Objects.isNull(entity)) {
+            throw new ResourceNotFound("Erro ao buscar comunicado: e-mail não encontrado!");
+        }
+        repository.deleteById(entity.getId());
     }
 
     public boolean verifyFields(ComunicacaoInDTO dto){

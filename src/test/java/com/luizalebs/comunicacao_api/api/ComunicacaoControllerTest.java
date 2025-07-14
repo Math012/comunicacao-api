@@ -173,4 +173,71 @@ public class ComunicacaoControllerTest {
                 .accept(MediaType.APPLICATION_JSON)
         ).andExpect(status().isBadRequest());
     }
+
+    @Test
+    void deveAtualizarComunicadoComSucesso() throws Exception{
+        when(comunicacaoService.updateComunicado(email,comunicacaoInDTO)).thenReturn(comunicacaoOutDTO);
+        mockMvc.perform(put(url)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .param("emailDestinatario",email)
+                .content(json)
+        ).andExpect(status().isOk());
+    }
+
+    @Test
+    void deveFalharAoAtualizarComunicadoComParametroInvalido() throws Exception{
+        mockMvc.perform(put(url)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .param("parametro invalido",email)
+                .content(json)
+        ).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void deveFalharAoAtualizarComunicadoComParametroNulo() throws Exception{
+        mockMvc.perform(put(url)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(json)
+        ).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void deveFalharAoAtualizarComunicadoComJsonNulo() throws Exception{
+        mockMvc.perform(put(url)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .param("emailDestinatario",email)
+        ).andExpect(status().isBadRequest());
+    }
+
+
+    @Test
+    void deveDeletarComunicadoComSucesso() throws Exception{
+        doNothing().when(comunicacaoService).deletarComunicado(email);
+        mockMvc.perform(delete(url)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .param("emailDestinatario",email)
+        ).andExpect(status().isOk());
+    }
+
+    @Test
+    void deveFalharAoDeletarComunicadoComParametroInvalido() throws Exception {
+        mockMvc.perform(delete(url)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .param("email invalido",email)
+        ).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void deveFalharAoDeletarComunicadoComParametroNulo() throws Exception {
+        mockMvc.perform(delete(url)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isBadRequest());
+    }
 }
